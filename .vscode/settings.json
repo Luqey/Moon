@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "CTIN389 Week2.sln"
+    "dotnet.defaultSolution": "Moon.sln"
 }

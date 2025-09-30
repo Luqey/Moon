@@ -242,8 +242,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0930c7e57b2be71489d0f46b6cbd85c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 10000
-  maxHealth: 10000
+  currentHealth: 1000
+  maxHealth: 1000
   dodgeChance: 0
   unarmed: 1
   lightWpn: 0

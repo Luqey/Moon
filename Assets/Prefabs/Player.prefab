@@ -226,6 +226,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c81fc9d840382c84ba080fe0eafcab33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHealth: 100
+  maxHealth: 100
+  flatArmor: 0
+  percArmor: 0
+  unarmedDamage: 5
+  equipDamage: 0
+  hitChange: 1
+  dodgeChance: 0
+  currWeapon: {fileID: 0}
 --- !u!114 &3961267767597998864
 MonoBehaviour:
   m_ObjectHideFlags: 0
