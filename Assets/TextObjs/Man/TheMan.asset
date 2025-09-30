@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efd851a2960a8114484c4f2adea4a76d, type: 3}
+  m_Name: TheMan
+  m_EditorClassIdentifier: 
+  faceSprite: {fileID: 21300000, guid: 30c1eb8046995804185f87d7d4dd63fa, type: 3}
+  dialogue:
+  - Be not afraid...
+  - It's just the affect of...
+  - the MOON...
+  barkClip: {fileID: 8300000, guid: ee793287090938040ab8561c7664f97f, type: 3}
+  highPitch: 1
+  lowPitch: 0.8
