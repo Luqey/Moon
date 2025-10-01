@@ -156,6 +156,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator PerformMovement(float dist, bool strafe)
     {
         somethingHappening = true;
+        SequenceManager.Instance.StartNextActions();
 
         Vector3 destination = strafe ? transform.position + transform.right * dist : transform.position + transform.forward * dist ;
 

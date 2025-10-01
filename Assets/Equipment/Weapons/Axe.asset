@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc451f74b8ffd8f4dad795af310cf75f, type: 3}
   m_Name: Axe
   m_EditorClassIdentifier: 
-  highDmg: 100
-  lowDmg: 80
-  critChance: 0.5
+  highDmg: 10
+  lowDmg: 8
+  critChance: 0.2
   critMult: 1.5
   damageType: 2
