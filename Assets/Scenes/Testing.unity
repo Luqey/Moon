@@ -2623,7 +2623,7 @@ PrefabInstance:
     - target: {fileID: 4493713187293693768, guid: 82e778834a72ca648b2175cc6527b724, type: 3}
       propertyPath: currWeapon
       value: 
-      objectReference: {fileID: 11400000, guid: 4dc7a77cc3facb0438531f853a8fdb5c, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7071732993915549833, guid: 82e778834a72ca648b2175cc6527b724, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
