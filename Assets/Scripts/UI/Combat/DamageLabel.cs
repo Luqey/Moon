@@ -84,12 +84,20 @@ public class DamageLabel : MonoBehaviour
         _displayDuration = displayDuration;
     }
 
-    public void Display(int damage, Vector3 objPosition, bool direction, bool isCrit)
+    public void Display(int damage, Vector3 objPosition, bool direction, bool isCrit, string altText)
     {
-    transform.position = objPosition;
-    _startingPositionForVisualization = objPosition;
+        transform.position = objPosition;
+        _startingPositionForVisualization = objPosition;
 
-    damageText.SetText(damage.ToString());
+        if (damage > 0)
+        {
+            damageText.SetText(damage.ToString());
+        }
+        else
+        {
+            damageText.SetText(altText);
+        }
+
     damageText.color = normalFontColor;
     damageText.enableVertexGradient = isCrit;
     damageText.fontSize = isCrit ? critFontSize : normalFontSize;

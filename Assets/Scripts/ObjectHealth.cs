@@ -9,6 +9,10 @@ public class ObjectHealth : MonoBehaviour
 
     [SerializeField] public float dodgeChance;
 
+    [Header("HealthUI")]
+    [SerializeField] private GameObject healthBarUI;
+    [SerializeField] private Transform healthFill;
+
     [Header("Takes Damage From:")]
 
     [SerializeField] public bool unarmed;
@@ -21,20 +25,22 @@ public class ObjectHealth : MonoBehaviour
         if (UnityEngine.Random.value <= dodgeChance)
         {
             Debug.Log("Miss!");
+            Popup(0, isCrit, "Miss!");
             return;
         }
 
         if (CanTakeDamage(type))
         {
+            UIFill(damage);
             currentHealth -= damage;
             Debug.Log($"{gameObject.name} took {damage} {type} damage! Health: {currentHealth}/{maxHealth}");
-            Popup(((int)damage), isCrit);
+            Popup(((int)damage), isCrit, "");
         }
         else
         {
             Debug.Log($"Cannot Damage {gameObject} with {type}");
+            Popup(0, isCrit, "Can't Damage This Type");
         }
-
 
         if (currentHealth <= 0)
         {
@@ -54,11 +60,22 @@ public class ObjectHealth : MonoBehaviour
         };
     }
 
-    private void Popup(int damage, bool isCrit)
+    private void Popup(int damage, bool isCrit, string altText)
     {
         Vector3 spawnPos = new Vector3(0, 1.5f, 0);
         spawnPos = transform.position + spawnPos;
-        
-        SpawnsDamagePopups.Instance.DamageDone(damage, spawnPos, isCrit);
+
+        SpawnsDamagePopups.Instance.DamageDone(damage, spawnPos, isCrit, altText);
+    }
+
+    private void UIFill(float damage)
+    {
+        healthBarUI.SetActive(true);
+        Vector3 currentFill = healthFill.localScale;
+        float percChange = (currentHealth - damage) / maxHealth;
+
+        currentFill = new Vector3(percChange, currentFill.y, currentFill.z);
+        healthFill.localScale = currentFill;
     }
 }
+

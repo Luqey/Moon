@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageLabelPrefab: {fileID: 5723438989899500822, guid: 27de8f636ee1dbc4a89b312ce01057c2, type: 3}
-  displayLength: 1
+  displayLength: 0.8
 --- !u!1001 &253460536263755934
 PrefabInstance:
   m_ObjectHideFlags: 0

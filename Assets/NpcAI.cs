@@ -6,10 +6,14 @@ public class NpcAI : MonoBehaviour
     [Header("NPC Types")]
     [SerializeField] private bool hostile = false;
 
+    [SerializeField] private float attDmg = 5;
+
 
     [Header("AI Brain")]
     [SerializeField] private bool decidingToMove = true;
     [SerializeField] private bool decidingToAttack = false;
+    [SerializeField] private bool facingPlayer = false;
+    [SerializeField] private bool inCombat = false;
 
     [SerializeField] LayerMask pLayerMask;
 
@@ -22,6 +26,10 @@ public class NpcAI : MonoBehaviour
         if (decidingToMove)
         {
             StartCoroutine(ShifterMove(CalculateWhereToMove()));
+        }
+        else if (decidingToAttack)
+        {
+            StartCoroutine(Attack());
         }
     }
 
@@ -90,10 +98,25 @@ public class NpcAI : MonoBehaviour
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow); // Raycast logic used from Unity Documentation
             decidingToMove = false;
+            decidingToAttack = true;
+            facingPlayer = true;
         }
         else
         {
             decidingToMove = true;
+            facingPlayer = false;
+        }
+    }
+    private IEnumerator Attack()
+    {
+        yield return new WaitForSeconds(.8f);
+        CheckIfFacingPlayer();
+        if (facingPlayer)
+        {
+            player.GetComponent<PlayerCombat>().currentHealth -= attDmg;
+            player.GetComponent<PlayerCombat>().UIFill(attDmg);
+            Debug.Log($"Player hit by {gameObject} for {attDmg}, Player Health: {player.GetComponent<PlayerCombat>().currentHealth}/{player.GetComponent<PlayerCombat>().maxHealth}");
+
         }
     }
 }

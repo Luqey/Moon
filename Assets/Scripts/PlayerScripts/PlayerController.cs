@@ -203,13 +203,13 @@ public class PlayerController : MonoBehaviour
     #region Bump Function
     private IEnumerator Bump(Vector3 destination)
     {
+        somethingHappening = true;
         GameObject target;
 
         Vector3 start = transform.position;
 
         float elapsed = 0f;
 
-        StartCoroutine(playerCombat.PerformCombat(target = objectLookingAt != null ? objectLookingAt : null));
         while (elapsed < bumpClass.bumpForDur)
         {
             transform.position = Vector3.Lerp(start, destination, elapsed / bumpClass.bumpForDur);
@@ -218,6 +218,11 @@ public class PlayerController : MonoBehaviour
         }
         transform.position = destination;
 
+        if (objectLookingAt.GetComponent<ObjectHealth>() != null)
+        {
+            yield return StartCoroutine(playerCombat.PerformCombat(target = objectLookingAt != null ? objectLookingAt : null));
+        }
+        
         float elapsed2 = 0f;
         while (elapsed2 < bumpClass.bumpBackDur)
         {
@@ -227,6 +232,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         transform.position = start;
+        somethingHappening = false;
     }
     #endregion
 

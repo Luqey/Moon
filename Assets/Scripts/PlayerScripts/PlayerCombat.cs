@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -20,9 +21,13 @@ public class PlayerCombat : MonoBehaviour
 
     private bool crit = false;
 
-
     [Header("Equipment")]
     [SerializeField] Weapons currWeapon;
+    [SerializeField] Animator currWpnAnim; //CHANGE
+
+    [Header("HealthUI")]
+    [SerializeField] private GameObject healthBarUI;
+    [SerializeField] private Transform healthFill;
 
 
     public IEnumerator PerformCombat(GameObject target)
@@ -34,11 +39,14 @@ public class PlayerCombat : MonoBehaviour
             float dmg = DamageRoll();
             DamageType type = currWeapon != null ? currWeapon.damageType : DamageType.Unarmed;
 
+            yield return StartCoroutine(PlayAnim());
+
             targetHealth.HealthUpdate(dmg, type, crit);
         }
 
-        yield return new WaitForSeconds(.3f);
         crit = false;
+
+        yield return new WaitForSeconds(.3f);
     }
 
     private float DamageRoll()
@@ -61,5 +69,21 @@ public class PlayerCombat : MonoBehaviour
         {
             return unarmedDamage;
         }
+    }
+    private IEnumerator PlayAnim()
+    {
+        int layerIndex = 0;
+        currWpnAnim.Play("AxeSwing", layerIndex, 0f);
+        yield return new WaitForSeconds(.4f);
+    }
+
+        public void UIFill(float damage)
+    {
+        healthBarUI.SetActive(true);
+        Vector3 currentFill = healthFill.localScale;
+        float percChange = (currentHealth - damage) / maxHealth;
+
+        currentFill = new Vector3(percChange, currentFill.y, currentFill.z);
+        healthFill.localScale = currentFill;
     }
 }
