@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: efd851a2960a8114484c4f2adea4a76d, type: 3}
-  m_Name: Gravestone
+  m_Name: Monologue2
   m_EditorClassIdentifier: 
   faceSprite: {fileID: 0}
   dialogue:
-  - Enter your name
-  barkClip: {fileID: 8300000, guid: d7b8e301fb8549d44858617da106aa0e, type: 3}
-  highPitch: 1
-  lowPitch: 0.8
-  typeSpeed: 0.025
+  - Is...
+  - Is this what it all amounted to?
+  barkClip: {fileID: 8300000, guid: ee793287090938040ab8561c7664f97f, type: 3}
+  highPitch: 2
+  lowPitch: 1.8
+  typeSpeed: 0.05

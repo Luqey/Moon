@@ -29,13 +29,22 @@ public class Interactable : MonoBehaviour
 
     #endregion
 
+
+    #region fucked up messy shit
+    public GameObject inputFieldObject;
+    public TMPro.TMP_InputField inputField;
+
+    public Animator animator; 
+    #endregion
+
     [SerializeField] bool doSomethingElse = false;
 
     public IEnumerator Activate()
     {
         if (type == 1)
         {
-            yield return StartCoroutine(dialogueManager.ReadText(dialogueObjs[line].dialogue, dialogueObjs[line].faceSprite, dialogueObjs[line].barkClip, dialogueObjs[line].lowPitch, dialogueObjs[line].highPitch, dialogueObjs[line].typeSpeed));
+            inputFieldObject.SetActive(false);
+            yield return StartCoroutine(dialogueManager.ReadText(dialogueObjs[line].dialogue, dialogueObjs[line].faceSprite, dialogueObjs[line].barkClip, dialogueObjs[line].lowPitch, dialogueObjs[line].highPitch, dialogueObjs[line].typeSpeed, true));
             if (line < dialogueObjs.Length - 1)
             {
                 line++;
@@ -43,6 +52,7 @@ public class Interactable : MonoBehaviour
         }
         else if (type == 2)
         {
+            inputFieldObject.SetActive(false);
             if (!isOpened)
             {
                 this.GetComponent<SpriteRenderer>().sprite = openedSprite;
@@ -50,20 +60,37 @@ public class Interactable : MonoBehaviour
                 openSound.Play();
                 ObtainItem();
 
-                yield return StartCoroutine(dialogueManager.ReadText(dialogueObjs[line].dialogue, dialogueObjs[line].faceSprite, dialogueObjs[line].barkClip, dialogueObjs[line].lowPitch, dialogueObjs[line].highPitch, dialogueObjs[line].typeSpeed));
+                yield return StartCoroutine(dialogueManager.ReadText(dialogueObjs[line].dialogue, dialogueObjs[line].faceSprite, dialogueObjs[line].barkClip, dialogueObjs[line].lowPitch, dialogueObjs[line].highPitch, dialogueObjs[line].typeSpeed, true));
             }
             else
             {
-                yield return StartCoroutine(dialogueManager.ReadText(empty, dialogueObjs[line].faceSprite, dialogueObjs[line].barkClip, dialogueObjs[line].lowPitch, dialogueObjs[line].highPitch, dialogueObjs[line].typeSpeed));
+                yield return StartCoroutine(dialogueManager.ReadText(empty, dialogueObjs[line].faceSprite, dialogueObjs[line].barkClip, dialogueObjs[line].lowPitch, dialogueObjs[line].highPitch, dialogueObjs[line].typeSpeed, true));
             }
         }
         else if (type == 3)
         {
+            inputFieldObject.SetActive(false);
             if (!isOpened && pInventory.inventoryItems.Contains(itemNeeded))
             {
 
 
             }
+        }
+        else if (type == 4)
+        {
+            Coroutine currentC;
+            currentC = StartCoroutine(dialogueManager.ReadText(dialogueObjs[line].dialogue, dialogueObjs[line].faceSprite, dialogueObjs[line].barkClip, dialogueObjs[line].lowPitch, dialogueObjs[line].highPitch, dialogueObjs[line].typeSpeed, true));
+
+            inputFieldObject.SetActive(true);
+            inputField.text = "";
+            inputField.ActivateInputField();
+
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+            StopCoroutine(currentC);
+
+            inputFieldObject.SetActive(false);
+
+            animator.Play("Stab");
         }
 
         if (doSomethingElse)

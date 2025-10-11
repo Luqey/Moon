@@ -36,7 +36,7 @@ public class DialogueManager : MonoBehaviour
         dialoguePortrait.sprite = null;
     }
 
-    public IEnumerator ReadText(string[] dialogue, Sprite portrait, AudioClip barkClip, float lowPitch, float highPitch, float typeSpeed)
+    public IEnumerator ReadText(string[] dialogue, Sprite portrait, AudioClip barkClip, float lowPitch, float highPitch, float typeSpeed, bool startedByInteraction)
     {
         if (isDialogueActive)
         {
@@ -56,6 +56,11 @@ public class DialogueManager : MonoBehaviour
         isDialogueActive = true;
         dialogueCanvas.SetActive(true);
 
+        if (startedByInteraction)
+        {
+            yield return new WaitUntil(() => Input.GetKeyUp(KeyCode.E));
+        }
+        
         for (currentLineIndex = 0; currentLineIndex < dialogue.Length; currentLineIndex++)
         {
             if (!isDialogueActive)
@@ -66,7 +71,7 @@ public class DialogueManager : MonoBehaviour
             currentLineHolder = dialogue[currentLineIndex];
             currentTextTypingCoroutine = StartCoroutine(TypeText(dialogue[currentLineIndex], barkClip, lowPitch, highPitch, typeSpeed));
 
-            yield return new WaitUntil(() => Input.GetKeyUp(KeyCode.E));
+            //yield return new WaitUntil(() => Input.GetKeyUp(KeyCode.E));
 
             bool lineFinished = false;
             while (!lineFinished)
@@ -82,6 +87,7 @@ public class DialogueManager : MonoBehaviour
                     else
                     {
                         lineFinished = true;
+                        yield return null;
                     }
                 }
                 yield return null;
@@ -101,10 +107,6 @@ public class DialogueManager : MonoBehaviour
         bark.clip = barkClip;
         foreach (char letter in line.ToCharArray())
         {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                
-            }
             textObject.text += letter;
             bark.pitch = Random.Range(lowPitch, highPitch);
 
@@ -113,5 +115,4 @@ public class DialogueManager : MonoBehaviour
         }
         typing = false;
     }
-
 }

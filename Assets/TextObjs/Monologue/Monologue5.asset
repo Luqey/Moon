@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc451f74b8ffd8f4dad795af310cf75f, type: 3}
-  m_Name: Axe
+  m_Script: {fileID: 11500000, guid: efd851a2960a8114484c4f2adea4a76d, type: 3}
+  m_Name: Monologue5
   m_EditorClassIdentifier: 
-  highDmg: 10
-  lowDmg: 8
-  critChance: 0.2
-  critMult: 1.5
-  damageType: 0
+  faceSprite: {fileID: 0}
+  dialogue:
+  - I'm so tired...
+  barkClip: {fileID: 8300000, guid: ee793287090938040ab8561c7664f97f, type: 3}
+  highPitch: 2
+  lowPitch: 1.8
+  typeSpeed: 0.05
