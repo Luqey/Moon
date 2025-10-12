@@ -69,6 +69,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] DialogueManager dialogueManager;
     [SerializeField] PlayerCombat playerCombat;
     [SerializeField] PlayerInventory inventory;
+    [SerializeField] Highlighter highlighter;
     #endregion
 
     void Awake()
@@ -177,8 +178,9 @@ public class PlayerController : MonoBehaviour
         }
         bumpClass.bumping = false;
 
+        highlighter.HighlightShift();
         somethingHappening = false;
-
+    
         Check();
     }
 
@@ -245,6 +247,7 @@ public class PlayerController : MonoBehaviour
 
         yield return StartCoroutine(ShifterRotate(targetRotation));
 
+        highlighter.ChangeHighlightedSquare();
         somethingHappening = false;
 
         Check();

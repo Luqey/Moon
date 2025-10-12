@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 4493713187293693768}
   - component: {fileID: 3961267767597998864}
   - component: {fileID: 7018083655594430083}
+  - component: {fileID: 2424819662918375700}
   - component: {fileID: 2927226587141789240}
   - component: {fileID: 943649266923483601}
   - component: {fileID: 7425144666055899380}
@@ -215,6 +216,7 @@ MonoBehaviour:
   dialogueManager: {fileID: 0}
   playerCombat: {fileID: 4493713187293693768}
   inventory: {fileID: 3961267767597998864}
+  highlighter: {fileID: 2424819662918375700}
 --- !u!114 &4493713187293693768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,6 +288,19 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 61aecaf53c15f084c96de37817790271, type: 3}
     waterFootstep: []
     bloodDrip: {fileID: 8300000, guid: 9baa368e95e0c4b4690f291999bc90d0, type: 3}
+--- !u!114 &2424819662918375700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8194899057489930286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc25089129e9b794e8680a93391afcdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highligher: {fileID: 0}
 --- !u!23 &2927226587141789240
 MeshRenderer:
   m_ObjectHideFlags: 0

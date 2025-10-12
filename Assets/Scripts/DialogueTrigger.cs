@@ -8,9 +8,6 @@ public class DialogueTrigger : MonoBehaviour
     [SerializeField] Dialogue[] dialogues;
     #endregion
 
-    //what the fuck am i doing
-    [SerializeField] GameObject _inputfield;
-
     [SerializeField] private bool activated;
 
     private int line;
@@ -30,7 +27,6 @@ public class DialogueTrigger : MonoBehaviour
 
     private IEnumerator BeginInteraction()
     {
-        _inputfield.SetActive(false);
         yield return new WaitForSeconds(.3f);
         yield return StartCoroutine(dialogueManager.ReadText(dialogues[line].dialogue, dialogues[line].faceSprite, dialogues[line].barkClip, dialogues[line].lowPitch, dialogues[line].highPitch, dialogues[line].typeSpeed, false));
     }
