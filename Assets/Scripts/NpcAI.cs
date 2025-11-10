@@ -10,22 +10,51 @@ public class NpcAI : MonoBehaviour
 
 
     [Header("AI Brain")]
+    [SerializeField] public int NPCTurnTimer;
+    private int timer;
+
     [SerializeField] private bool decidingToMove = true;
     [SerializeField] private bool decidingToAttack = false;
     [SerializeField] private bool facingPlayer = false;
     [SerializeField] private bool inCombat = false;
+
+    public NPCCombatClass nPCCombatClass;
+    [System.Serializable]
+    public class NPCCombatClass
+    {
+        [SerializeField] public float attDist = 1.5f;
+
+        [SerializeField] public float attForDur = .15f;
+        [SerializeField] public float attBackDur = .1f;
+    }
 
     [SerializeField] LayerMask pLayerMask;
 
     [Header("Refs")]
     [SerializeField] private GameObject player;
 
-    public void PerfomAction()
+    private void Start()
+    {
+        timer = NPCTurnTimer;
+    }
+
+    public void CountdownTurnTimer(Vector3 playerMovePos)
+    {
+        timer -= 1;
+        Debug.Log(timer);
+        if(timer <= 0)
+        {
+            PerfomAction(playerMovePos);
+            timer = NPCTurnTimer;
+        }
+    }
+
+    public void PerfomAction(Vector3 playerMovePos)
     {
         CheckIfFacingPlayer();
         if (decidingToMove)
         {
-            StartCoroutine(ShifterMove(CalculateWhereToMove()));
+            StartCoroutine(ShifterMove(CalculateWhereToMove(), playerMovePos));
         }
         else if (decidingToAttack)
         {
@@ -33,22 +62,31 @@ public class NpcAI : MonoBehaviour
         }
     }
 
-    private IEnumerator ShifterMove(Vector3 destination)
+    private IEnumerator ShifterMove(Vector3 destination, Vector3 playerMovePos)
     {
-        float dur = 0.3f;
-        Vector3 start = transform.position;
-
-        float elapsed = 0f;
-
-        while (elapsed < dur)
+        if (destination.x == playerMovePos.x && destination.z == playerMovePos.z)
         {
-            transform.position = Vector3.Lerp(start, destination, elapsed / dur);
-            elapsed += Time.deltaTime;
-            yield return null;
+            Debug.Log("Same Position! Attacking Instead");
+            StartCoroutine(Attack());
         }
 
-        transform.position = destination;
-        CheckIfFacingPlayer();
+        else
+        {
+            float dur = 0.3f;
+            Vector3 start = transform.position;
+
+            float elapsed = 0f;
+
+            while (elapsed < dur)
+            {
+                transform.position = Vector3.Lerp(start, destination, elapsed / dur);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.position = destination;
+            CheckIfFacingPlayer();
+        }
     }
 
     private Vector3 CalculateWhereToMove()

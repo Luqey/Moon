@@ -157,11 +157,12 @@ public class PlayerController : MonoBehaviour
     private IEnumerator PerformMovement(float dist, bool strafe)
     {
         somethingHappening = true;
-        SequenceManager.Instance.StartNextActions();
 
         Vector3 destination = strafe ? transform.position + transform.right * dist : transform.position + transform.forward * dist ;
 
         destination = new Vector3(Mathf.Round(destination.x), destination.y, Mathf.Round(destination.z));
+
+        SequenceManager.Instance.StartNextActions(destination);
 
         playerAudio.FootStepSound();
 

@@ -15,11 +15,11 @@ public class SequenceManager : MonoBehaviour
     public void Register(Entity entity) => entities.Add(entity);
     public void Unregister(Entity entity) => entities.Remove(entity);
 
-    public void StartNextActions()
+    public void StartNextActions(Vector3 playerMovePos)
     {
         foreach (Entity entity in entities)
         {
-            entity.GetComponent<NpcAI>().PerfomAction();
+            entity.GetComponent<NpcAI>().CountdownTurnTimer(playerMovePos);
         }
     }
 }

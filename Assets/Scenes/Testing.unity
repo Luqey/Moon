@@ -2233,10 +2233,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hostile: 1
   attDmg: 5
+  NPCTurnTimer: 1
   decidingToMove: 1
   decidingToAttack: 0
   facingPlayer: 0
   inCombat: 0
+  nPCCombatClass:
+    attDist: 1.5
+    attForDur: 0.15
+    attBackDur: 0.1
   pLayerMask:
     serializedVersion: 2
     m_Bits: 128
