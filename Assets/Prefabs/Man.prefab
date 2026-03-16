@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 4654235180851252345}
   - component: {fileID: 6328303054806668640}
   - component: {fileID: 430751333647901388}
-  - component: {fileID: 485093710355451338}
   m_Layer: 9
   m_Name: Man
   m_TagString: Untagged
@@ -39,6 +38,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!212 &5337568174447572338
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -57,10 +57,12 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 17f4a32dd7bd95a4e8b5a29f2dd57d68, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -78,9 +80,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -921439764, guid: c3454a6ced1b7e4469483323a17ee7e4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -90,7 +94,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &6618717435247129926
 Animator:
@@ -131,6 +134,14 @@ MonoBehaviour:
   dialogueObjs:
   - {fileID: 11400000, guid: d50f3cd575dbfae4ba7824cb29633168, type: 2}
   - {fileID: 11400000, guid: 992f5144b758c224e966ec838f126386, type: 2}
+  openSound: {fileID: 0}
+  isOpened: 0
+  openedSprite: {fileID: 0}
+  heldObject: {fileID: 0}
+  empty: []
+  pInventory: {fileID: 0}
+  itemNeeded: {fileID: 0}
+  doSomethingElse: 0
 --- !u!65 &6328303054806668640
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -162,7 +173,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 952c02991cd174b41ad21d683ad38c5d, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 952c02991cd174b41ad21d683ad38c5d, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -258,16 +269,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &485093710355451338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5623306440566028046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f28c59c905effc64db9bc1000cf64b09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}

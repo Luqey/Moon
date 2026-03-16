@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class NpcAI : MonoBehaviour
-{
+namespace Moon {
+
+  public class NpcAI : MonoBehaviour {
     [Header("NPC Types")]
     [SerializeField] private bool hostile = false;
 
@@ -20,12 +21,11 @@ public class NpcAI : MonoBehaviour
 
     public NPCCombatClass nPCCombatClass;
     [System.Serializable]
-    public class NPCCombatClass
-    {
-        [SerializeField] public float attDist = 1.5f;
+    public class NPCCombatClass {
+      [SerializeField] public float attDist = 1.5f;
 
-        [SerializeField] public float attForDur = .15f;
-        [SerializeField] public float attBackDur = .1f;
+      [SerializeField] public float attForDur = .15f;
+      [SerializeField] public float attBackDur = .1f;
     }
 
     [SerializeField] LayerMask pLayerMask;
@@ -33,128 +33,90 @@ public class NpcAI : MonoBehaviour
     [Header("Refs")]
     [SerializeField] private GameObject player;
 
-    private void Start()
-    {
+    private void Start() {
+      timer = NPCTurnTimer;
+    }
+
+    public void CountdownTurnTimer(Vector3 playerMovePos) {
+      timer -= 1;
+      Debug.Log(timer);
+      if (timer <= 0) {
+        PerformAction(playerMovePos);
         timer = NPCTurnTimer;
+      }
     }
 
-    public void CountdownTurnTimer(Vector3 playerMovePos)
-    {
-        timer -= 1;
-        Debug.Log(timer);
-        if(timer <= 0)
-        {
-            PerfomAction(playerMovePos);
-            timer = NPCTurnTimer;
+    public void PerformAction(Vector3 playerMovePos) {
+      CheckIfFacingPlayer();
+      if (decidingToMove) {
+        StartCoroutine(ShifterMove(CalculateWhereToMove(), playerMovePos));
+      } else if (decidingToAttack) {
+        StartCoroutine(Attack());
+      }
+    }
+
+    private IEnumerator ShifterMove(Vector3 destination, Vector3 playerMovePos) {
+      if (destination.x == playerMovePos.x && destination.z == playerMovePos.z) {
+        Debug.Log("Same Position! Attacking Instead");
+        StartCoroutine(Attack());
+      } else {
+        float dur = 0.3f;
+        Vector3 start = transform.position;
+
+        float elapsed = 0f;
+
+        while (elapsed < dur) {
+          transform.position = Vector3.Lerp(start, destination, elapsed / dur);
+          elapsed += Time.deltaTime;
+          yield return null;
         }
-    }
 
-    public void PerfomAction(Vector3 playerMovePos)
-    {
+        transform.position = destination;
         CheckIfFacingPlayer();
-        if (decidingToMove)
-        {
-            StartCoroutine(ShifterMove(CalculateWhereToMove(), playerMovePos));
-        }
-        else if (decidingToAttack)
-        {
-            StartCoroutine(Attack());
-        }
+      }
     }
 
-    private IEnumerator ShifterMove(Vector3 destination, Vector3 playerMovePos)
-    {
-        if (destination.x == playerMovePos.x && destination.z == playerMovePos.z)
-        {
-            Debug.Log("Same Position! Attacking Instead");
-            StartCoroutine(Attack());
-        }
+    private Vector3 CalculateWhereToMove() {
+      Vector2Int step = new(0, 0);
 
-        else
-        {
-            float dur = 0.3f;
-            Vector3 start = transform.position;
+      var myGrid = Services.Grid.ToGrid(transform.position);
 
-            float elapsed = 0f;
+      if (hostile) {
+        // Take unpredictable steps towards the player
+        var diff = Services.Grid.ToGrid(player.transform.position) - myGrid;
+        if (diff.x > diff.y)
+          step.x = Math.Sign(diff.x);
+        step.y = Math.Sign(diff.y);
+      } else {
+        step.x = Random.Range(-1, 2);
+        step.y = Random.Range(-1, 2);
+      }
 
-            while (elapsed < dur)
-            {
-                transform.position = Vector3.Lerp(start, destination, elapsed / dur);
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
-
-            transform.position = destination;
-            CheckIfFacingPlayer();
-        }
+      return Services.Grid.FromGrid(myGrid + step);
     }
 
-    private Vector3 CalculateWhereToMove()
-    {
-        Vector3 target;
-
-        if (hostile)
-        {
-            Vector3 playerGrid = player.transform.position / 3f;
-            Vector3 myGrid = transform.position / 3f;
-
-            Vector3 diff = playerGrid - myGrid;
-
-            Vector3 step = Vector3.zero;
-
-            if (Mathf.Abs(diff.x) > Mathf.Abs(diff.z))
-                step.x = Mathf.Sign(diff.x);
-
-            step.z = Mathf.Sign(diff.z);
-
-            target = (myGrid + step) * 3f;
-        }
-        else
-        {
-            target = NextPathingPoint();
-        }
-        return target;
+    private void CheckIfFacingPlayer() {
+      var playerGrid = Services.Grid.ToGrid(player.transform.position);
+      var diff = Services.Grid.ToGrid(transform.position) - playerGrid;
+      if (diff.sqrMagnitude <= 2f) {
+        decidingToMove = false;
+        decidingToAttack = true;
+        facingPlayer = true;
+      } else {
+        decidingToMove = true;
+        facingPlayer = false;
+      }
     }
 
-    private Vector3 NextPathingPoint()
-    {
-        Vector3 currentGrid = transform.position / 3f;
+    private IEnumerator Attack() {
+      yield return new WaitForSeconds(.8f);
+      CheckIfFacingPlayer();
+      if (facingPlayer) {
+        player.GetComponent<PlayerCombat>().currentHealth -= attDmg;
+        player.GetComponent<PlayerCombat>().UIFill(attDmg);
+        Debug.Log($"Player hit by {gameObject} for {attDmg}, Player Health: {player.GetComponent<PlayerCombat>().currentHealth}/{player.GetComponent<PlayerCombat>().maxHealth}");
 
-
-        int dx = Random.Range(-1, 2);
-        int dz = Random.Range(-1, 2);
-
-        Vector3 nextGrid = new Vector3(currentGrid.x + dx, currentGrid.y, currentGrid.z + dz);
-        return nextGrid * 3f;
+      }
     }
-
-    private void CheckIfFacingPlayer()
-    {
-        RaycastHit hit;
-
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 4, pLayerMask))
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow); // Raycast logic used from Unity Documentation
-            decidingToMove = false;
-            decidingToAttack = true;
-            facingPlayer = true;
-        }
-        else
-        {
-            decidingToMove = true;
-            facingPlayer = false;
-        }
-    }
-    private IEnumerator Attack()
-    {
-        yield return new WaitForSeconds(.8f);
-        CheckIfFacingPlayer();
-        if (facingPlayer)
-        {
-            player.GetComponent<PlayerCombat>().currentHealth -= attDmg;
-            player.GetComponent<PlayerCombat>().UIFill(attDmg);
-            Debug.Log($"Player hit by {gameObject} for {attDmg}, Player Health: {player.GetComponent<PlayerCombat>().currentHealth}/{player.GetComponent<PlayerCombat>().maxHealth}");
-
-        }
-    }
+  }
 }
