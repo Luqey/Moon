@@ -22,7 +22,7 @@ public class PlayerCombat : MonoBehaviour
     private bool crit = false;
 
     [Header("Equipment")]
-    [SerializeField] Weapons currWeapon;
+    [SerializeField] Weapon currWeapon;
     [SerializeField] Animator currWpnAnim; //CHANGE
 
     [Header("HealthUI")]
