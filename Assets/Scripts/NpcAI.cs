@@ -37,7 +37,7 @@ namespace Moon {
       timer = NPCTurnTimer;
     }
 
-    public void CountdownTurnTimer(Vector3 playerMovePos) {
+    public void CountdownTurnTimer(Vector2Int playerMovePos) {
       timer -= 1;
       Debug.Log(timer);
       if (timer <= 0) {
@@ -46,10 +46,10 @@ namespace Moon {
       }
     }
 
-    public void PerformAction(Vector3 playerMovePos) {
+    public void PerformAction(Vector2Int playerMovePos) {
       CheckIfFacingPlayer();
       if (decidingToMove) {
-        StartCoroutine(ShifterMove(CalculateWhereToMove(), playerMovePos));
+        StartCoroutine(ShifterMove(CalculateWhereToMove(), Services.Grid.FromGrid(playerMovePos)));
       } else if (decidingToAttack) {
         StartCoroutine(Attack());
       }

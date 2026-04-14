@@ -14,7 +14,7 @@ namespace Moon {
     public void Register(Entity entity) => entities.Add(entity);
     public void Unregister(Entity entity) => entities.Remove(entity);
 
-    public void StartNextActions(Vector3 playerMovePos) {
+    public void StartNextActions(Vector2Int playerMovePos) {
       foreach (Entity entity in entities) {
         entity.GetComponent<NpcAI>().CountdownTurnTimer(playerMovePos);
       }

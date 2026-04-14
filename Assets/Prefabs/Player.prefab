@@ -940,8 +940,8 @@ GameObject:
   - component: {fileID: 3961267767597998864}
   - component: {fileID: 7018083655594430083}
   - component: {fileID: 2424819662918375700}
-  - component: {fileID: 2927226587141789240}
   - component: {fileID: 971073809435191023}
+  - component: {fileID: 8501323937703938350}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -979,27 +979,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11f4410dade5192438219757fb20278d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  somethingHappening: 0
-  moveVar:
-    moveDist: 3
-    angledMoveDist: 4.24
-    rotateDist: 45
-    moveDuration: 0.3
-    angledMoveDur: 0.45
-    rotateDuration: 0.2
-    angled: 0
-    canMoveForward: 1
-    canMoveBackward: 1
-    canMoveLeft: 1
-    canMoveRight: 1
-  bumpClass:
-    bumping: 0
-    bumpDamage: 0
-    bumpDist: 1
-    bumpForDur: 0.15
-    bumpBackDur: 0.15
-  objectLookingAt: {fileID: 0}
-  hand: {fileID: 0}
+  playerAudio: {fileID: 7018083655594430083}
+  gridMovementController: {fileID: 8501323937703938350}
+  interact: {fileID: 1781555164194001046, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  interactMask:
+    serializedVersion: 2
+    m_Bits: 512
+  hand: {fileID: 5003829823037342220}
   dialogueManager: {fileID: 0}
   playerCombat: {fileID: 4493713187293693768}
   inventory: {fileID: 3961267767597998864}
@@ -1054,10 +1040,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSFX: {fileID: 971073809435191023}
-  onGrass: 0
-  onWood: 0
-  onWater: 0
-  onBlood: 0
   bloodMask:
     serializedVersion: 2
     m_Bits: 8192
@@ -1088,55 +1070,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highligher: {fileID: 0}
---- !u!23 &2927226587141789240
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8194899057489930286}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!82 &971073809435191023
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1234,6 +1167,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8501323937703938350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8194899057489930286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5bdd2af224aef14eb1e96a3983a40e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GridMovementController
+  walkTime: 0.3
+  turnTime: 0.2
+  bumpForwardTime: 0.15
+  bumpBackwardTime: 0.1
+  bumpDistance: 0.5
+  colliderMask:
+    serializedVersion: 2
+    m_Bits: 704
+  moveAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &8260391159394205245
 GameObject:
   m_ObjectHideFlags: 0
@@ -1245,6 +1199,7 @@ GameObject:
   - component: {fileID: 7200628337371495772}
   - component: {fileID: 7244705804891898161}
   - component: {fileID: 3386785462702327438}
+  - component: {fileID: 5003829823037342220}
   m_Layer: 7
   m_Name: Hand
   m_TagString: Untagged
@@ -1321,6 +1276,22 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
+--- !u!114 &5003829823037342220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8260391159394205245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1b75668222b09042945fbac4aced1af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bobbing
+  hand: {fileID: 7200628337371495772}
+  amplitudeY: 10
+  amplitudeX: 5
+  duration: 0.5
 --- !u!1 &8400579086288692639
 GameObject:
   m_ObjectHideFlags: 0

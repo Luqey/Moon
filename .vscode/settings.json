@@ -42,7 +42,7 @@
         "**/*.mat": true,
         "**/*.meta": true,
         "**/*.prefab": true,
-        "**/*.unity": true,
+        // "**/*.unity": true,
         "build/": true,
         "Build/": true,
         "Library/": true,
@@ -56,5 +56,10 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Moon.slnx"
+    "dotnet.defaultSolution": "Moon.slnx",
+    "cSpell.words": [
+      "Interactable",
+      "Interactables",
+      "Lerp"
+    ]
 }

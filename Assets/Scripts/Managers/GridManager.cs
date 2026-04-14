@@ -14,8 +14,8 @@ namespace Moon {
       return new(Mathf.RoundToInt(worldPosition.x / gridSize), Mathf.RoundToInt(worldPosition.z / gridSize));
     }
 
-    public Vector3 FromGrid(Vector2Int gridPosition) {
-      return new(gridPosition.x * gridSize, 0, gridPosition.y * gridSize);
+    public Vector3 FromGrid(Vector2Int gridPosition, float withY = 0f) {
+      return new(gridPosition.x * gridSize, withY, gridPosition.y * gridSize);
     }
 
     public Vector2Int Insert(Vector3 worldPosition, GameObject o) {
